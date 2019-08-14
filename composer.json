@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Webgility_FedEx_Hold_at_Location",
+    "type": "magento-module",
+    "license": "1.0",
+    "homepage": "",
+    "description": "Webgility provides software to help simplify and automate eCommerce your business. We offer a suite of products that enable online retailers to integrate with QuickBooks, ",
+    "authors": [
+    {
+        "name": "webgility",
+        "email": "support@webgility.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

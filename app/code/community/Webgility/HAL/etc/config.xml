@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<config>    
+    <modules>
+        <Webgility_HAL>
+            <version>0.1.0</version>
+        </Webgility_HAL>
+    </modules>
+	<global>
+		<models>
+            <hal>
+                <class>Webgility_HAL_Model</class>
+				<rewrite>
+                    <type_onepage>Webgility_HAL_Model_Type_Onepage</type_onepage>
+                </rewrite>
+
+            </hal>
+			
+        </models>
+		 <resources>
+			 <hal_setup>
+				<setup>
+				  <module>Webgility_HAL</module>
+				   <class>Webgility_HAL_Model_Mysql4_Setup</class>
+				  </setup>
+				<connection>
+				  <use>core_setup</use>
+				</connection>
+			  </hal_setup>			 
+    	</resources>
+        
+		<blocks>
+	            <class>
+	                
+						<hal>Webgility_HAL_Block</hal>
+						
+				
+	            </class>
+				<hal>
+						<rewrite>
+							<onepage_shipping_method>Webgility_HAL_Block_Onepage_Shipping_Method</onepage_shipping_method>
+						</rewrite>
+				</hal>
+
+	     </blocks>
+
+        <helpers>
+            <hal>
+                <class>Webgility_HAL_Helper</class>
+            </hal>
+        </helpers>
+        <rewrite>
+            <webgility_hal_desktop>
+                <from><![CDATA[#^/hal/hal-magento.php#]]></from>
+                <to>/hal/index/index</to>
+            </webgility_hal_desktop>
+        </rewrite>
+    </global>
+
+	<admin>
+        <routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<Webgility_HAL before="Mage_Adminhtml">Webgility_HAL_Adminhtml</Webgility_HAL>
+					</modules>
+				</args>
+			</adminhtml>
+
+            <hal>
+                <use>admin</use>
+                <args>
+                    <module>Webgility_HAL</module>
+                    <frontName>hal</frontName>
+                </args>
+            </hal>
+        </routers>
+    </admin>
+	<frontend>
+        <routers>
+            <hal>
+                <use>standard</use>
+                <args>
+                    <module>Webgility_HAL</module>
+                    <frontName>hal</frontName>
+                </args>
+           
+			    <args>
+                    <modules>
+                        <halwebgility before="Mage_Checkout">Webgility_HAL</halwebgility>
+                    </modules>
+                </args>
+             </hal>
+        </routers> 
+		<layout>
+			<updates>
+				<salesrep>
+					<file>hal.xml</file>
+				</salesrep>
+			</updates>
+		</layout>
+    </frontend>
+ <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <hal_options>
+                                            <title>HAL Module Section</title>
+                                        </hal_options>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+			<menu>
+            <tutorial_menu translate="title" module="hal">
+                <title>Webgility</title> 
+                <sort_order>1000</sort_order>
+                <children>
+                   
+					<first_page module="hal">
+                        <title>Hold At FedEx Location</title> 
+                        <action>hal/admin/settings</action>
+                    </first_page>
+					 <first_page1 module="hal">
+                        <title>About</title> 
+                        <action>hal/admin/about</action>
+                    </first_page1>
+					
+                </children>
+            </tutorial_menu>
+        </menu> 
+
+    </adminhtml>	
+</config>

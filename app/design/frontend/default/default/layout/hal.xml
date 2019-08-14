@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+
+
+
+<!--
+One page checkout progress block
+-->
+<checkout_onepage_index>
+      <reference name="checkout.onepage.shipping">         
+            <action method="setTemplate">
+                <template>hal/onepage/shipping.phtml</template>
+           </action>      
+     </reference>
+ </checkout_onepage_index>
+
+</layout>
