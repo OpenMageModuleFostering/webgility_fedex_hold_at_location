@@ -650,7 +650,7 @@ class Webgility_HAL_Model_WgSettings
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			  <tr>
 				<td width="42%" height="30" style="padding-left:30px;"> FedEx Account * </td>
-				<td width="58%"><input type="text" id="fedex_account" name="fedex_account" style="width: 174px;" onclick="" value="'.$account_no.'" /><br>Need a FedEx account? <a target="_blank"  href="https://www.fedex.com/fcl/web/jsp/contactInfo1.jsp?appName=oadr&locale=us_en&step3URL=https%3A%2F%2Fwww.fedex.com%2Ffcl%2FExistingAccountFclStep3&afterwardsURL=https%3A%2F%2Fwww.fedex.com%2Ffcl%2Foptionhome&programIndicator=ss90705920">Click here<br><br></td>
+				<td width="58%"><input type="text" id="fedex_account" name="fedex_account" style="width: 174px;" onclick="" value="'.$account_no.'" /><br>Need a FedEx account? <a target="_blank"  href=" https://www.fedex.com/fcl/ALL?enrollmentid=ss10926409">Click here<br><br></td>
 			  </tr>
 			 <tr>
 			  	<td colspan="2">
