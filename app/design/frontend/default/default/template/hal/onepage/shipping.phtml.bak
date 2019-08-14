@@ -173,9 +173,6 @@ function save_shipment(name,add,comp,city,state,postal)
 			}else if($row['scope_id'] == $store_id  && $row['scope'] )
 			{
 				$val=$row['value'];
-			}else
-			{
-				$val=0;
 			}
 			
 			

@@ -2,7 +2,7 @@
 <config>    
     <modules>
         <Webgility_HAL>
-            <version>0.1.0</version>
+            <version>1.0.1</version>
         </Webgility_HAL>
     </modules>
 	<global>
@@ -99,7 +99,7 @@
 			</updates>
 		</layout>
     </frontend>
- <adminhtml>
+	<adminhtml>
         <acl>
             <resources>
                 <admin>
@@ -125,18 +125,30 @@
                 <sort_order>1000</sort_order>
                 <children>
                    
-					<first_page module="hal">
+					<first_page10 module="hal">
                         <title>Hold At FedEx Location</title> 
-                        <action>hal/admin/settings</action>
-                    </first_page>
-					 <first_page1 module="hal">
-                        <title>About</title> 
-                        <action>hal/admin/about</action>
-                    </first_page1>
-					
+                        <!--action>hal/admin/settings</action-->
+                    <children>
+						<first_page13 module="hal">
+							<title>Configuration</title> 
+							<action>hal/admin/settings</action>
+						</first_page13>
+						<first_page11 module="hal">
+							<title>FAQ</title> 
+							<action>hal/admin/faq</action>
+						</first_page11>
+						<first_page12 module="hal">
+							<title>About</title> 
+							<action>hal/admin/about</action>
+						</first_page12>
+						
+						
+					</children>
+					</first_page10>
                 </children>
             </tutorial_menu>
         </menu> 
 
     </adminhtml>	
-</config>
+
+ </config>

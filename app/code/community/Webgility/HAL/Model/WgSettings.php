@@ -32,6 +32,9 @@ class Webgility_HAL_Model_WgSettings
 		$modules = Mage::getConfig()->getNode('modules')->children();
 		$modulesArray = (array)$modules;
 		$ModuleVersion = (array)$modulesArray['Webgility_HAL'];
+		// Mage::helper("adminhtml")->getUrl("adminhtml/controllername/actionname")
+		$system_config_url= Mage::helper("adminhtml")->getUrl("adminhtml/system_config/edit/section/hal_options/");
+		
 		
 		$user = Mage::getSingleton('admin/session');
 		$userId = $user->getUser()->getUserId();
@@ -57,6 +60,13 @@ class Webgility_HAL_Model_WgSettings
 		$eavSetId = Mage::getSingleton('core/resource')->getConnection('core_write');
 		$SetIds=$eavSetId->query("SELECT * FROM `webgility_settings`");
 		$row = $SetIds->fetch();
+		
+		$session = $adminuser = Mage::getSingleton('admin/session');
+            /* @var $adminuser Mage_Admin_Model_User */
+        $adminuser = $session->getUser();
+        $adminuser->setReloadAclFlag(true);
+		$session->refreshAcl();
+				
 		if($row['fedex_email']!="")
 		{
 			$userEmail = $row['fedex_email'];
@@ -90,6 +100,9 @@ class Webgility_HAL_Model_WgSettings
 			$store_name = $row['fedex_company'];
 		}
 		
+		
+		
+		
 		$add2=$row['fedex_address2'];
 		$fax=$row['fedex_fax'];
 		$account_no=$row['account_no'];
@@ -97,10 +110,13 @@ class Webgility_HAL_Model_WgSettings
 		$state=$row['fedex_state'];
 		
 		$enable=$row['enable'];
-		
+		if($meter_no!="")
+		{
+			$system_config_url_meter= "<br><b>Enable/Disable extension <a href=".Mage::helper("adminhtml")->getUrl("adminhtml/system_config/edit/section/hal_options/").">Click Here </a></b>";
+		}
 		$enable_array = array("Yes"=>"1","No"=>"0");
 		
-		$enable_drop = '<select name="enable" id="enable" ><option value="">Please select</option>';
+		$enable_drop = '<select name="enable" id="enable" >';
 		foreach($enable_array as $key=>$value)
 		{
 			$selected = '';
@@ -163,7 +179,8 @@ class Webgility_HAL_Model_WgSettings
 			$style1='style="display:block;"';
 		}
 		$state_drop .='</select>';
-
+		//echo $this->getUrl($yourDynamicVariable);
+		
 		$str = '
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 			<script>
@@ -215,7 +232,7 @@ class Webgility_HAL_Model_WgSettings
 							 {
 							 	document.getElementById("LoadingImage1").style.display="none";
 								
-								document.getElementById("err_msg").innerHTML="<b>Webgility account created succesfully</b>";
+								document.getElementById("err_msg").innerHTML="<b>Webgility account created successfully</b>";
 								setTimeout(function(){
 											document.getElementById("show_webgility").style.display="none";
 								
@@ -276,7 +293,7 @@ class Webgility_HAL_Model_WgSettings
 							 {
 							 	document.getElementById("LoadingImage").style.display="none";
 								
-								document.getElementById("plugin").innerHTML="<b>Plugin registered succesfully</b>";
+								document.getElementById("plugin").innerHTML="<b>Plugin registered successfully</b>";
 								
 								setTimeout(function(){
 											document.getElementById("show_webgility").style.display="none";
@@ -289,9 +306,10 @@ class Webgility_HAL_Model_WgSettings
 							}
 							else
 							{
+								
 								document.getElementById("LoadingImage").style.display="none";
 							
-								document.getElementById("plugin").innerHTML="<b>"+json.StatusMessage+"</b>";
+								document.getElementById("err_msg_1").innerHTML="<b>"+json.StatusMessage+"</b>";
 							}
 							 },
 							 error:function(){
@@ -309,7 +327,7 @@ class Webgility_HAL_Model_WgSettings
 					document.getElementById("LoadingImage2").style.display="block";
 					var fedex_account = document.getElementById("fedex_account").value;
 					var company = document.getElementById("company").value;
-					var name = document.getElementById("fedex_name").value;
+					var name = jq.trim(document.getElementById("fedex_name").value);
 					var add1 = document.getElementById("add1").value;
 					var add2 = document.getElementById("add2").value;
 					var city = document.getElementById("city").value;
@@ -404,10 +422,17 @@ class Webgility_HAL_Model_WgSettings
 
 							if(meter!="")
 							{
+								
 								document.getElementById("meter_number").style.display="block";
 								document.getElementById("fedex_meter_number").value=meter;
-								document.getElementById("enable_plugin").style.display="block";
+								//document.getElementById("enable_plugin").style.display="block";
 								update_portal(meter,web_email,web_key,fedex_account);
+								 document.getElementById("LoadingImage2").style.display="block";
+								document.getElementById("err_msg_2").innerHTML = "<b>Account registered successfully  with FedEx.You will be redirected to enable your plugin.</b>";
+								window.setTimeout(function() {
+
+								location.href = "'.$system_config_url.'";
+								}, 5000);
 								
 								//document.getElementById("meter_number").innerHTML="<br/><b>Meter Number : "+json.meter+"</b><br/>";
 									
@@ -468,7 +493,7 @@ class Webgility_HAL_Model_WgSettings
 				
 				function configForm_submit()
 				{
-					
+					document.getElementById("err_msg_2").innerHTML = "";
 					document.getElementById("LoadingImage").style.display="block";
 					var enable = document.getElementById("enable").value;
 					 var data = "enable="+ encodeURIComponent(enable) +"&type=enable_plugin"; 
@@ -479,11 +504,11 @@ class Webgility_HAL_Model_WgSettings
 							 success:function(json){
 							 if(json.plugin_enable==1)
 							 {
-								 alert("Plug-in enabled");
+								 alert("Hold at FedEx Location Enabled");
 							}
 							else
 							{
-								 alert("Plug-in disabled");
+								 alert("Hold at FedEx Location Disabled");
 							}
 							location.reload();
 							 },
@@ -498,20 +523,7 @@ class Webgility_HAL_Model_WgSettings
 			
 		<div class="main-col-inner">
                             <div id="messages"></div>
-                            
-						<div class="content-header">
-							<table cellspacing="0">
-								<tbody><tr>
-									<td>
-										<h3>Hold at FedEx Location Settings</h3>
-									</td>
-									<td align="right" >
-										<button style="" onclick="configForm_submit()" class="scalable save" type="button" id="id_81a2f2a53f98fa76f83fdbcf4bbd7273"><span>Save Config</span></button>
-									</td>
-								   
-								 </tr>
-							</tbody></table>
-						</div>
+
 						
 						<table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#999999" style="border-bottom:#999999 solid 1px; border-right:#999999 solid 1px; border-top:#999999 solid 1px; border-left:#999999 solid 1px;">
 	  <tr>
@@ -699,7 +711,9 @@ class Webgility_HAL_Model_WgSettings
 			<img src="'.$base_path.'/downloader/skin/images/ajax-loader-tr.gif">
 			</div></td>
 			  </tr>
-			  <tr><td>&nbsp;</td><td><div id="err_msg_2" style="color:red;"></div></td></tr>
+			  <tr><td>&nbsp;</td><td><div id="err_msg_2" style="color:black; line-height:25px;"></div></td></tr>
+			  
+			  <tr><td>&nbsp;</td><td>'.$system_config_url_meter.'</td></tr>
 			   <tr>
 				<td  height="30" style="padding-left:30px;">* Required fields </td>
 				<td ></td>
@@ -714,36 +728,6 @@ class Webgility_HAL_Model_WgSettings
 	</tr>
 </table>
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#999999" style="border-bottom:#999999 solid 1px; border-right:#999999 solid 1px; border-top:#999999 solid 1px; border-left:#999999 solid 1px;">
-	  <tr>
-		<td colspan="2" valign="middle" bgcolor="#6F8992" ><span style="color:#FFFFFF; padding-left:8px; font-size:1.05em;"><b>Enable your plug-in</b></span></td>
-	  </tr>
-	  <tr>
-	  <td width="20px;">
-	  </td>
-		<td>
-
-		<div id="enable_plugin" '.$style_meter.'>
-			
-				<table width="27%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td colspan="2" height="30" style="padding-top:8px;">Please register your FedEx account<br/><br/></td>
-    </tr>
-<tr>
-	<td>
-		<div id="show_new">
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			  <tr>
-				<td width="42%" height="30" style="padding-left:30px;">Enable plug-in : </td>
-				<td width="58%">'.$enable_drop.'</td>
-			  </tr>
-			 <tr>
-			  	
-		</table>
-		</div>
-	</td>
-	</tr>
-</table>
 	</td>
 	</tr>
 </table>
