@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Webgility_FedEx_Hold_at_Location",
+    "name": "OpenMageModuleFostering\/Webgility_FedEx_Hold_at_Location",
     "type": "magento-module",
     "license": "1.0",
     "homepage": "",
     "description": "Webgility_Hold_at_FedEx_Location",
     "authors": [
-    {
-        "name": "webgility",
-        "email": "support@webgility.com"
-    }
-],
+        {
+            "name": "webgility",
+            "email": "support@webgility.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
